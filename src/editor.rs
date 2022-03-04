@@ -57,13 +57,13 @@ impl Editor for SVFPluginEditor {
             .with_inner_size(WINDOW_WIDTH, WINDOW_HEIGHT)
             .with_title("SVF");
 
-        let handle = Application::new(window_description, move |cx| {
-            cx.add_theme(STYLE);
+        // let handle = Application::new(window_description, move |cx| {
+        //     cx.add_theme(STYLE);
 
-            plugin_gui(cx, state.clone());
-        })
-        .open_parented(&ParentWindow(parent));
-        self.handle = Some(handle);
+        //     plugin_gui(cx, state.clone());
+        // })
+        // .open_parented(&ParentWindow(parent));
+        // self.handle = Some(handle);
 
         true
     }
