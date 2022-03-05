@@ -9,6 +9,11 @@ pub trait Parameter {
     fn get_display(&self) -> String;
     fn get_name(&self) -> String;
 }
+
+pub trait GetParameterByIndex {
+    fn get_parameter_by_index<'a>(&'a self, index: i32) -> &'a dyn Parameter;
+}
+
 pub struct ParameterSmooth {
     pub name: String,
     normalized_value: AtomicF32,

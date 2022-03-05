@@ -2,6 +2,7 @@ use crate::editor::EditorState;
 use crate::editor::{get_amplitude_response, get_phase_response};
 use crate::filter;
 use crate::filter_parameters::FilterParameterNr;
+use crate::parameter::GetParameterByIndex;
 use crate::utils::*;
 use crate::FilterParameters;
 use enum_index::EnumIndex;
@@ -49,6 +50,7 @@ impl Model for UiData {
                     }
                     // set_parameter is on the PluginParameters trait
                     else {
+                        println!("-- index {} value {}", parameter_index, new_value);
                         self.params.set_parameter(*parameter_index, *new_value);
                     }
                 }
@@ -169,7 +171,11 @@ fn make_knob(cx: &mut Context, param_index: i32) -> Handle<VStack> {
 
         Knob::custom(
             cx,
-            UiData::params.get(cx).get_parameter_default(param_index),
+            // UiData::params.get(cx).get_parameter_default(param_index),
+            UiData::params
+                .get(cx)
+                .get_parameter_by_index(param_index)
+                .get_normalized_default(),
             // params.get(cx).get_parameter(param_index),
             UiData::params.map(move |params| params.get_parameter(param_index)),
             move |cx, lens| {
@@ -221,7 +227,10 @@ fn make_steppy_knob(
 
         Knob::custom(
             cx,
-            UiData::params.get(cx).get_parameter_default(param_index),
+            UiData::params
+                .get(cx)
+                .get_parameter_by_index(param_index)
+                .get_normalized_default(),
             UiData::params.map(move |params| params.get_parameter(param_index)),
             move |cx, lens| {
                 let mode = KnobMode::Discrete(steps);
